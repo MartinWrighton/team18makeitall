@@ -3,29 +3,26 @@ import { stringify } from "querystring";
 
 
 
-type messageType = {
-    senderID: String;
-    receiverID: String;
-    time: String;
-    date: String;
-    content: String;
-  }
+type userType = {
+  userID: string;
+  completed: number;
+  uncompleted: number;
+  meaninglessStats: number[];
+}
 
-const messages = [
+const users = [
     {
-        senderID: "Martin",
-        receiverID: "Ben",
-        time: "12:00",
-        date: "01-05-2023",
-        content: "Hey hows it going?"
+        userID: "Martin",
+        completed: 10,
+        uncompleted: 12,
+        meaninglessStats: [4,5,8,3]
     },
     {
-        senderID: "Ben",
-        receiverID: "Martin",
-        time: "12:10",
-        date: "01-05-2023",
-        content: "Terribly"
-    }
+      userID: "Ben",
+      completed: 1,
+      uncompleted: 23,
+      meaninglessStats: [9,3,4,1]
+  },
 ]
 
   
@@ -37,17 +34,15 @@ const messages = [
         // If the request contains an project ID -> return one project
         if (req.query.hasOwnProperty("userID")) {
           const { userID } = req.query;
-          let messageList = []
-          for (let i = 0; i < messages.length ; i++){
-            if (messages[i].senderID == userID || messages[i].receiverID == userID ){
-              messageList.push(messages[i])
-            }
-          }
-          if (messageList) {
+
+          const user = users.find(
+            (user: userType) => String(user.userID) === userID
+          );
+          if (user) {
             return res.status(200).json({
               success: true,
               message: "ok",
-              data: messageList,
+              data: user,
             });
           } else {
             return res.status(400).json({
@@ -60,7 +55,7 @@ const messages = [
           return res.status(200).json({
             success: true,
             message: "ok",
-            data: messages,
+            data: users,
           });
         }
      
