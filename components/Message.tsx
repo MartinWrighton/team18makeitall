@@ -21,16 +21,20 @@ export default function Message(props : messageType){
         }
       }, []);
 
-      let style = "w-1/2 h-fit bg-blue-300 rounded-xl p-2"
+      let style = "w-1/2 h-fit bg-blue-300 rounded-xl p-2 shadow-lg"
 
       if (userID==message.senderID){
-        style = "w-1/2 h-fit bg-green-300 rounded-xl p-2 ml-[50%]"
+        style = "w-1/2 h-fit bg-green-300 rounded-xl p-2 ml-[50%] shadow-lg"
     }
 
     return(
         <>
             <div className={style}>
-                <h1 className="font-bold">{message.senderID}</h1>
+                <div className="flex space-x-2">
+                  <h1 className="font-bold">{message.senderID}</h1>
+                  <p className="font-thin">{message.time}</p>
+                  <p className="font-thin">{message.date}</p>
+                </div>
                 <p>{message.content}</p>
             </div>
         </>
