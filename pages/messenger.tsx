@@ -27,7 +27,6 @@ export default function Home() {
   }]);
 
 
-
   //GET REQUEST
   
   async function getMessageData(userID: any) {
@@ -62,8 +61,9 @@ export default function Home() {
     }
     */
    //NEW cookie based userID
-   const userID = getCookie('userID')
-   getMessageData(userID);
+   const ID = getCookie('userID')
+   setUserID(ID as string)
+   getMessageData(ID);
   }, []);
 
 
@@ -74,7 +74,7 @@ export default function Home() {
         <title>Team 18 | Messenger</title>
         <meta name="description" content="Team 18 part 3" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.jpg" />
       </Head>
       <div className='w-screen h-screen pt-5 bg-blue-200'>
         <div className='mx-auto p-5 bg-white shadow-xl rounded-xl w-1/3 h-fit'>

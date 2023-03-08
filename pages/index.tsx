@@ -5,16 +5,37 @@ import styles from '@/styles/Home.module.css'
 import Router from 'next/router'
 import { useState } from 'react'
 import { setCookie } from 'cookies-next';
+import { createFalse } from 'typescript'
 
 export default function Home() {
   const [userID, setuserID] = useState("")
 
 
 
+  async function validateUser(userID: any) {
+    const url = "/api/messages?userID=" + userID;
+    await fetch(url, {
+      method: "GET",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          console.log("error fetching api data");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (!(data.data.length == 0)) {
+          // If the API is successfull
+          setCookie('userID', userID);
+          Router.push("./menu")
+        } else {
+          //if user was not found
+          window.alert("User not found");
+        }
+      });
+  }
 
-
-
-
+  
 
   return (
     <>
@@ -39,8 +60,7 @@ export default function Home() {
             <br/>
             <div className='w-fit mx-auto'>
              <button className='bg-blue-500 p-5 rounded-lg h-fit  w-fit mx-auto font-bold font-sans text-xl' onClick={(e)=>{
-                setCookie('userID', userID);
-                Router.push("./messenger")
+              validateUser(userID)
              }}>Log In</button>
             </div>
           </div>

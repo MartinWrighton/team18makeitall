@@ -45,9 +45,9 @@ const users = [
               data: user,
             });
           } else {
-            return res.status(400).json({
+            return res.status(200).json({
               success: false,
-              message: "message does not exist",
+              message: "user does not exist",
             });
           }
         } else {
