@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import { getCookie } from 'cookies-next'
+
 type messageType = {
     senderID: string;
     receiverID: string;
@@ -9,17 +11,9 @@ type messageType = {
   }
 
 export default function Message(props : messageType){
-    const [userID,setUserID] = useState("")
     const [message,setMessage] = useState<messageType>(props);
 
-    useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        if (!params.has("userID")) {
-          console.log("Missing user ID Parameter");
-        } else {
-        setUserID(String(params.get("userID")))
-        }
-      }, []);
+    const userID = getCookie('userID')
 
       let style = "w-1/2 h-fit bg-blue-300 rounded-xl p-2 shadow-lg"
 

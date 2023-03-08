@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import Router from 'next/router'
 import { useState } from 'react'
-
+import { setCookie } from 'cookies-next';
 
 export default function Home() {
   const [userID, setuserID] = useState("")
@@ -39,7 +39,8 @@ export default function Home() {
             <br/>
             <div className='w-fit mx-auto'>
              <button className='bg-blue-500 p-5 rounded-lg h-fit  w-fit mx-auto font-bold font-sans text-xl' onClick={(e)=>{
-                Router.push("./messenger?userID="+userID)
+                setCookie('userID', userID);
+                Router.push("./messenger")
              }}>Log In</button>
             </div>
           </div>

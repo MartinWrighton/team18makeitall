@@ -6,6 +6,7 @@ import Router from 'next/router'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import Message from '@/components/Message'
+import { getCookie } from 'cookies-next'
 
 type messageType = {
   senderID: string;
@@ -50,6 +51,7 @@ export default function Home() {
   
 
   useEffect(() => {
+    /*old url based userID
     const params = new URLSearchParams(window.location.search);
     if (!params.has("userID")) {
       console.log("Missing user ID Parameter");
@@ -58,6 +60,10 @@ export default function Home() {
     setUserID(params.get("userID")!)
     getMessageData(userID);
     }
+    */
+   //NEW cookie based userID
+   const userID = getCookie('userID')
+   getMessageData(userID);
   }, []);
 
 
