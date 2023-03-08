@@ -7,13 +7,13 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import Message from '@/components/Message'
 import { getCookie } from 'cookies-next'
+import { timeStamp } from 'console'
 
 type messageType = {
   senderID: string;
   receiverID: string;
-  time: string;
-  date: string;
   content: string;
+  timestamp: number;
 }
 
 export default function Home() {
@@ -21,9 +21,8 @@ export default function Home() {
   const [messages, setMessages] = useState<messageType[]>([{
     senderID : "",
     receiverID: "",
-    time: "",
-    date: "",
-    content: ""
+    content: "",
+    timestamp: 0
   }]);
 
 
@@ -43,6 +42,10 @@ export default function Home() {
       .then((data) => {
         if (data.success) {
           // If the API is successfull
+          //sort messages
+          data.data.sort(function(a: { timestamp: number }, b: { timestamp: number }){
+            return a.timestamp - b.timestamp;
+        });
           setMessages(data.data);
         }
       });
@@ -84,7 +87,7 @@ export default function Home() {
           <h1 className='text-center font-bold font-sans text-3xl'>Welcome {userID}</h1>
           <>
              {messages.map((message)=>(
-                <Message key={message.time+message.senderID} senderID={message.senderID} receiverID={message.receiverID} time={message.time} date={message.date} content={message.content}/>
+                <Message key={message.timestamp+message.senderID} senderID={message.senderID} receiverID={message.receiverID} timestamp={message.timestamp} content={message.content}/>
               ))}
           </>
         </div>

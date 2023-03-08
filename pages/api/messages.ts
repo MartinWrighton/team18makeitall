@@ -6,26 +6,25 @@ import { stringify } from "querystring";
 type messageType = {
     senderID: String;
     receiverID: String;
-    time: String;
-    date: String;
+   
     content: String;
+    timestamp: number;
   }
 
 const messages = [
+      {
+        senderID: "Ben",
+        receiverID: "Martin",
+        content: "Terribly",
+        timestamp: 202305011210,
+    },
     {
         senderID: "Martin",
         receiverID: "Ben",
-        time: "12:00",
-        date: "01-05-2023",
-        content: "Hey hows it going?"
+        content: "Hey hows it going?",
+        timestamp: 202305011200,
     },
-    {
-        senderID: "Ben",
-        receiverID: "Martin",
-        time: "12:10",
-        date: "01-05-2023",
-        content: "Terribly"
-    }
+ 
 ]
 
   
