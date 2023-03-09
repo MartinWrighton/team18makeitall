@@ -29,7 +29,7 @@ export default function Home() {
         <div className='mx-auto p-5 bg-white shadow-xl rounded-xl w-1/3 h-fit'>
           <h1 className='text-center font-bold font-sans text-5xl'>Menu</h1>
         </div>
-        <div className='mx-auto my-5 p-5 bg-white shadow-xl rounded-xl w-8/12 h-5/6 space-y-5'>
+        <div className='relative mx-auto my-5 p-5 bg-white shadow-xl rounded-xl w-8/12 h-5/6 space-y-5'>
           <h1 className='text-center font-bold font-sans text-3xl'>Choose an option:</h1>
           <div className='w-fit mx-auto space-x-5'>
             <Link href="messengerList">
@@ -40,6 +40,9 @@ export default function Home() {
             </Link>
 
           </div>
+          <Link className='absolute bottom-0 right-0' href="/">
+                <button className='bg-blue-500 px-2 rounded-lg h-fit  w-fit mx-auto font-bold font-sans text-xl'>Log Out</button>
+          </Link>
         </div>
       </div>
     </>
