@@ -10,7 +10,7 @@ export default function MessengerList(props: userType ){
 
    
 
-      let style = "w-1/2 h-fit bg-blue-300 rounded-xl p-2 shadow-lg"
+      let style = "h-fit bg-blue-300 rounded-xl p-2 shadow-lg"
 
 
     return(
@@ -18,7 +18,7 @@ export default function MessengerList(props: userType ){
         <Link className="my-2" href={"messenger?chatID="+user.userID}>
             <div className={style}>
                 <div className="flex space-x-2">
-                  <h1 className="font-bold">{user.userID}</h1>
+                  <h1 className="mx-auto font-bold text-center">{user.userID}</h1>
                 </div>
       
             </div>

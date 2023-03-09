@@ -83,7 +83,9 @@ export default function Home() {
           <h1 className='text-center font-bold font-sans text-3xl'>Welcome {userID}</h1>
           <>
               {users.map((user)=>(
+                <div className='pt-0.5 w-1/2 mx-auto'>
                 <MessengerList key={user.userID} userID={user.userID} completed={user.completed} uncompleted={user.uncompleted} meaninglessStats={user.meaninglessStats}/>
+                </div>
               ))}
           </>
         </div>
