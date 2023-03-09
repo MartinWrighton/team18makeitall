@@ -1,29 +1,44 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { stringify } from "querystring";
 
+import { messageType } from '@/types/types'
 
 
-type messageType = {
-    senderID: String;
-    receiverID: String;
-   
-    content: String;
-    timestamp: number;
-  }
 
 const messages = [
-      {
-        senderID: "Ben",
-        receiverID: "Martin",
-        content: "Terribly",
-        timestamp: 202305011210,
+  {
+    senderID: "Martin",
+    receiverID: "Luke",
+    content: "At least 3",
+    timestamp: 202305031333,
+   },
+  {
+      senderID: "Ben",
+      receiverID: "Martin",
+      content: "Terribly",
+      timestamp: 202305011210,
+    },
+  {
+      senderID: "Martin",
+      receiverID: "Ben",
+      content: "Hey hows it going?",
+      timestamp: 202305011200,
+    },
+  {
+      senderID: "Luke",
+      receiverID: "Martin",
+      content: "What is 8x8?",
+      timestamp: 202305031255,
     },
     {
-        senderID: "Martin",
-        receiverID: "Ben",
-        content: "Hey hows it going?",
-        timestamp: 202305011200,
+      senderID: "Luke",
+      receiverID: "Ben",
+      content: "Hey Ben its Luke!",
+      timestamp: 202305031256,
     },
+   
+   
+   
  
 ]
 
@@ -55,8 +70,8 @@ const messages = [
             });
           }
         } else {
-          // Else return all projects
-          return res.status(200).json({
+          // Else return all projects - DISABLED
+          return res.status(400).json({
             success: true,
             message: "ok",
             data: messages,

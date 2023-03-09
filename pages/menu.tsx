@@ -32,7 +32,7 @@ export default function Home() {
         <div className='mx-auto my-5 p-5 bg-white shadow-xl rounded-xl w-8/12 h-5/6 space-y-5'>
           <h1 className='text-center font-bold font-sans text-3xl'>Choose an option:</h1>
           <div className='w-fit mx-auto space-x-5'>
-            <Link href="messenger">
+            <Link href="messengerList">
                 <button className='bg-blue-500 p-5 rounded-lg h-fit  w-fit mx-auto font-bold font-sans text-xl'>Messenger</button>
             </Link>
             <Link href="analytics">

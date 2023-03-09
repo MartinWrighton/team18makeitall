@@ -1,14 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { stringify } from "querystring";
+import {userType } from '@/types/types'
 
 
 
-type userType = {
-  userID: string;
-  completed: number;
-  uncompleted: number;
-  meaninglessStats: number[];
-}
 
 const users = [
     {
@@ -23,9 +18,26 @@ const users = [
       uncompleted: 23,
       meaninglessStats: [9,3,4,1]
   },
+  {
+    userID: "Luke",
+    completed: 8,
+    uncompleted: 4,
+    meaninglessStats: [6,2,5,2]
+},
+{
+  userID: "Jon",
+  completed: 2,
+  uncompleted: 4,
+  meaninglessStats: [1,5,2,6]
+},
+{
+  userID: "Isac",
+  completed: 2,
+  uncompleted: 34,
+  meaninglessStats: [15,2,5,8]
+},
 ]
 
-  
 
     export default function handler(req: NextApiRequest, res: NextApiResponse) {
       if (req.method == "GET") {

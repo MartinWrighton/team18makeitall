@@ -9,14 +9,10 @@ import { ArcElement } from 'chart.js';
 import { useState, useEffect } from "react";
 import { getCookie } from 'cookies-next'
 import {Line, Pie} from 'react-chartjs-2';
+import { userType } from '@/types/types'
 Chart.register(ArcElement);
 
-type userType = {
-  userID: string;
-  completed: number;
-  uncompleted: number;
-  meaninglessStats: number[];
-}
+
 
 export default function Home() {
   const [userID,setUserID] = useState("")

@@ -1,13 +1,8 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { getCookie } from 'cookies-next'
+import { messageType } from '@/types/types'
 
-type messageType = {
-    senderID: string;
-    receiverID: string;
-    content: string;
-    timestamp: number;
-  }
 
 export default function Message(props : messageType){
     const [message,setMessage] = useState<messageType>(props);

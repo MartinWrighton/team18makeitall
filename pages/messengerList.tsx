@@ -5,32 +5,29 @@ import styles from '@/styles/Home.module.css'
 import Router from 'next/router'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import Message from '@/components/Message'
+import MessengerList from '@/components/MessengerList'
 import { getCookie } from 'cookies-next'
 import { timeStamp } from 'console'
-import { messageType} from '@/types/types'
-
+import { messageType,userType } from '@/types/types'
 
 export default function Home() {
   const [userID,setUserID] = useState("")
-  const [chatID,setChatID] = useState("")
-  const [messages, setMessages] = useState<messageType[]>([{
-    senderID : "",
-    receiverID: "",
-    content: "",
-    timestamp: 0
-  }]);
 
+  const [users, setUsers] = useState<userType[]>([{
+    userID: "",
+    completed: 0,
+    uncompleted:0,
+    meaninglessStats: [0]
+  }]);
 
   //GET REQUEST
   
-  async function getMessageData(userID: any,chatID: string) {
-    const url = "/api/messages?userID=" + userID;
+  async function getData(userID: any) {
+    const url = "/api/users";
     await fetch(url, {
       method: "GET",
     })
       .then((res) => {
-       
         if (!res.ok) {
           console.log("error fetching api data");
         }
@@ -39,18 +36,13 @@ export default function Home() {
       .then((data) => {
         if (data.success) {
           // If the API is successfull
-          //filter for only the ones for this chat
-          let messageList = []
-          for (let i = 0 ; i < data.data.length ; i++){
-            if (((data.data[i].senderID == userID)&&(data.data[i].receiverID == chatID))||((data.data[i].senderID == chatID)&&(data.data[i].receiverID == userID))){
-              messageList.push(data.data[i])
+          //remove the user from their own list
+          for (let i = 0 ; i < data.data.length;i++){
+            if (data.data[i].userID == userID){
+              data.data.splice(i, 1);
+            }
           }
-        }
-          //sort messages
-          messageList.sort(function(a: { timestamp: number }, b: { timestamp: number }){
-            return a.timestamp - b.timestamp;
-        });
-          setMessages(messageList);
+          setUsers(data.data);
         }
       });
   }
@@ -68,16 +60,11 @@ export default function Home() {
     }
     */
    //NEW cookie based userID
-   const myID = getCookie('userID')
-   setUserID(myID as string)
-   
-   const params = new URLSearchParams(window.location.search);
-   const receiverID = String(params.get("chatID"));
-   setChatID(receiverID as string)
-   getMessageData(myID,receiverID);
-   
+   const userID = getCookie('userID')
+   const ID = getCookie('userID')
+   setUserID(ID as string)
+   getData(ID);
   }, []);
-
 
 
   return (
@@ -93,10 +80,10 @@ export default function Home() {
           <h1 className='text-center font-bold font-sans text-5xl'>Messenger</h1>
         </div>
         <div className='mx-auto my-5 p-5 bg-white shadow-xl rounded-xl w-8/12 h-5/6 space-y-5'>
-          <h1 className='text-center font-bold font-sans text-3xl'>Messaging {chatID}</h1>
+          <h1 className='text-center font-bold font-sans text-3xl'>Welcome {userID}</h1>
           <>
-             {messages.map((message)=>(
-                <Message key={message.timestamp+message.senderID} senderID={message.senderID} receiverID={message.receiverID} timestamp={message.timestamp} content={message.content}/>
+              {users.map((user)=>(
+                <MessengerList key={user.userID} userID={user.userID} completed={user.completed} uncompleted={user.uncompleted} meaninglessStats={user.meaninglessStats}/>
               ))}
           </>
         </div>

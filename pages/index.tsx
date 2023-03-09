@@ -13,7 +13,7 @@ export default function Home() {
 
 
   async function validateUser(userID: any) {
-    const url = "/api/messages?userID=" + userID;
+    const url = "/api/users?userID=" + userID;
     await fetch(url, {
       method: "GET",
     })
