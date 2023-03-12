@@ -36,10 +36,6 @@ const messages = [
       content: "Hey Ben its Luke!",
       timestamp: 202305031256,
     },
-   
-   
-   
- 
 ]
 
   

@@ -9,6 +9,7 @@ import MessengerList from '@/components/MessengerList'
 import { getCookie } from 'cookies-next'
 import { timeStamp } from 'console'
 import { messageType,userType } from '@/types/types'
+import Link from 'next/link'
 
 export default function Home() {
   const [userID,setUserID] = useState("")
@@ -79,7 +80,7 @@ export default function Home() {
         <div className='mx-auto p-5 bg-white shadow-xl rounded-xl w-1/3 h-fit'>
           <h1 className='text-center font-bold font-sans text-5xl'>Messenger</h1>
         </div>
-        <div className='mx-auto my-5 p-5 bg-white shadow-xl rounded-xl w-8/12 h-5/6 space-y-5'>
+        <div className='relative mx-auto my-5 p-5 bg-white shadow-xl rounded-xl w-8/12 h-5/6 space-y-5'>
           <h1 className='text-center font-bold font-sans text-3xl'>Welcome {userID}</h1>
           <>
               {users.map((user)=>(
@@ -88,6 +89,9 @@ export default function Home() {
                 </div>
               ))}
           </>
+          <Link className='absolute bottom-0 right-0' href="/menu">
+                <button className='bg-blue-500 px-2 rounded-lg h-fit  w-fit mx-auto font-bold font-sans text-xl'>Back</button>
+          </Link>
         </div>
       </div>
     </>
