@@ -20,7 +20,7 @@ export default function Message(props : messageType){
             <div className={style}>
                 <div className="flex space-x-2">
                   <h1 className="font-bold">{message.senderID}</h1>
-                  <p className="font-thin">{String(message.timestamp).slice(-4,-2)+":"+String(message.timestamp).slice(-2)}</p>
+                  <p className="font-thin">{String(message.timestamp).slice(-6,-4)+":"+String(message.timestamp).slice(-4,-2)}</p>
                   <p className="font-thin">{String(message.timestamp).slice(6,8)+"-"+String(message.timestamp).slice(4,6)+"-"+String(message.timestamp).slice(0,4)}</p>
                 </div>
                 <p>{message.content}</p>

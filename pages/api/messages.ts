@@ -5,60 +5,64 @@ import { messageType } from '@/types/types'
 
 
 
-const messages = [
-  {
-    senderID: "Martin",
-    receiverID: "Luke",
-    content: "At least 3",
-    timestamp: 202305031333,
-   },
-  {
-      senderID: "Ben",
-      receiverID: "Martin",
-      content: "Terribly",
-      timestamp: 202305011210,
-    },
-  {
-      senderID: "Martin",
-      receiverID: "Ben",
-      content: "Hey hows it going?",
-      timestamp: 202305011200,
-    },
-  {
-      senderID: "Luke",
-      receiverID: "Martin",
-      content: "What is 8x8?",
-      timestamp: 202305031255,
-    },
-    {
-      senderID: "Luke",
-      receiverID: "Ben",
-      content: "Hey Ben its Luke!",
-      timestamp: 202305031256,
-    },
-    {
-      senderID: "Luke",
-      receiverID: "GroupChat1",
-      content: "Group chat time!",
-      timestamp: 202305031257,
-    },
-    {
-      senderID: "Martin",
-      receiverID: "GroupChat1",
-      content: "It finaly works!",
-      timestamp: 202305031257,
-    },
-    {
-      senderID: "Ben",
-      receiverID: "GroupChat1",
-      content: "Awesome",
-      timestamp: 202305031257,
-    },
-]
+
 
   
 
     export default function handler(req: NextApiRequest, res: NextApiResponse) {
+      let messages = [
+        {
+          senderID: "Martin",
+          receiverID: "Luke",
+          content: "At least 3",
+          timestamp: 20230303133300,
+         },
+        {
+            senderID: "Ben",
+            receiverID: "Martin",
+            content: "Terribly",
+            timestamp: 20230301121000,
+          },
+        {
+            senderID: "Martin",
+            receiverID: "Ben",
+            content: "Hey hows it going?",
+            timestamp: 20230301120000,
+          },
+        {
+            senderID: "Luke",
+            receiverID: "Martin",
+            content: "What is 8x8?",
+            timestamp: 20230303125500,
+          },
+          {
+            senderID: "Luke",
+            receiverID: "Ben",
+            content: "Hey Ben its Luke!",
+            timestamp: 20230303125600,
+          },
+          {
+            senderID: "Luke",
+            receiverID: "GroupChat1",
+            content: "Group chat time!",
+            timestamp: 20230303125700,
+          },
+          {
+            senderID: "Martin",
+            receiverID: "GroupChat1",
+            content: "It finaly works!",
+            timestamp: 20230303125700,
+          },
+          {
+            senderID: "Ben",
+            receiverID: "GroupChat1",
+            content: "Awesome",
+            timestamp: 20230312233200,
+          },
+      ]
+
+
+
       if (req.method == "GET") {
         // Get the project to read
     
@@ -113,5 +117,13 @@ const messages = [
           });
         }
      
+      } else if (req.method == "POST"){
+        const body = req.body
+        messages.push(body.message)
+        return res.status(200).json({
+          success: true,
+          message: "ok",
+          data: messages,
+        });
       }
     }

@@ -16,6 +16,7 @@ export default function Home() {
   const [userID,setUserID] = useState("")
   const [chatID,setChatID] = useState("")
   const [textbox,setTextbox] = useState("")
+  const [isGroupchat,setIsGroupchat] = useState(false)
   const [messages, setMessages] = useState<messageType[]>([{
     senderID : "",
     receiverID: "",
@@ -24,8 +25,65 @@ export default function Home() {
   }]);
 
 
-  function sendMessage(textbox : string){
-    console.log(textbox)
+  async function sendMessage(userID:string,chatID:string,textbox : string,isGroup:boolean){
+    const url = "/api/messages"
+    //date-time formatting
+    const date = new Date();
+    const month = date.getMonth()+1
+    let longMonth
+    if (month < 10){
+      longMonth = "0"+String(month)
+    }
+    const datetime = parseInt(String(date.getFullYear())+longMonth+String(date.getDate())+String(date.getHours())+String(date.getMinutes())+String(date.getSeconds()))
+    console.log(datetime)
+    await fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },body: JSON.stringify({
+        message: {
+        senderID: userID,
+        receiverID: chatID,
+        content: textbox,
+        timestamp: datetime
+        },
+        group: isGroup,
+        id: userID
+    })
+    })
+    .then((res) => {
+      return res.json()
+    }
+    )
+    .then((data)=>{
+
+      //display new message
+      
+      let messageList = []
+          if (!isGroup){
+          for (let i = 0 ; i < data.data.length ; i++){
+            if (((data.data[i].senderID == userID)&&(data.data[i].receiverID == chatID))||((data.data[i].senderID == chatID)&&(data.data[i].receiverID == userID))){
+              messageList.push(data.data[i])
+          }
+        }
+          } else {
+            for (let i = 0; i < data.data.length ; i++){
+              if (data.data[i].receiverID == chatID ){
+                messageList.push(data.data[i])
+              }
+            }
+          }
+          
+          //sort messages
+          messageList.sort(function(a: { timestamp: number }, b: { timestamp: number }){
+            return a.timestamp - b.timestamp;
+        });
+        
+          setMessages(messageList);
+          
+        
+    })
   }
 
   //GET REQUEST
@@ -46,7 +104,6 @@ export default function Home() {
       })
       .then((data) => {
         if (data.success) {
-          console.log(data.data)
           // If the API is successfull
           //filter for only the ones for this chat
           let messageList = []
@@ -92,9 +149,11 @@ export default function Home() {
     if (params.has("chatID")){
       receiverID = String(params.get("chatID"));
       isGroup = false
+      setIsGroupchat(false)
    } else {
     receiverID = String(params.get("groupID"));
     isGroup = true
+    setIsGroupchat(true)
    }
 
    setChatID(receiverID as string)
@@ -127,12 +186,20 @@ export default function Home() {
             <div className='mx-auto w-[80%] flex'>
               <input id="name"  placeholder='Message' className='justify-center border-2 w-full rounded-md bg-gray-100' onInput={(e:any)=>{
                 setTextbox(e.target.value!)
-              }
+              }}
+              onKeyDown = {(event) => {
+                // If the user presses the "Enter" key on the keyboard
+                if (event.key === "Enter") {
+                  // Cancel the default action, if needed
+                  event.preventDefault();
+                  // Trigger the button element with a click
+                  sendMessage(userID,chatID,textbox,isGroupchat)
+                }}
               }></input>
               <br/>
               <div className='w-fit mx-auto '>
-              <button className='bg-gradient-to-b from-indigo-400 to-indigo-400 via-indigo-500 hover:from-indigo-300 hover:to-indigo-300 hover:via-indigo-400 hover:translate-y-1 px-2 rounded-lg  w-fit mx-auto font-bold font-sans text-xl' onClick={(e)=>{
-                sendMessage(textbox)
+              <button id="send" className='bg-gradient-to-b from-indigo-400 to-indigo-400 via-indigo-500 hover:from-indigo-300 hover:to-indigo-300 hover:via-indigo-400 hover:translate-y-1 px-2 rounded-lg  w-fit mx-auto font-bold font-sans text-xl' onClick={(e)=>{
+                sendMessage(userID,chatID,textbox,isGroupchat)
               }}>Send</button>
               </div>
             </div>
