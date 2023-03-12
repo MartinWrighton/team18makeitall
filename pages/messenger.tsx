@@ -29,8 +29,11 @@ export default function Home() {
   }
 
   //GET REQUEST
-  async function getMessageData(userID: any,chatID: string) {
-    const url = "/api/messages?userID=" + userID;
+  async function getMessageData(userID: any,chatID: string,isGroup : boolean) {
+    let url = "/api/messages?userID=" + userID;
+    if (isGroup){//allowing groupchats
+      url = "/api/messages?groupID=" + chatID;
+    }
     await fetch(url, {
       method: "GET",
     })
@@ -43,14 +46,20 @@ export default function Home() {
       })
       .then((data) => {
         if (data.success) {
+          console.log(data.data)
           // If the API is successfull
           //filter for only the ones for this chat
           let messageList = []
+          if (!isGroup){
           for (let i = 0 ; i < data.data.length ; i++){
             if (((data.data[i].senderID == userID)&&(data.data[i].receiverID == chatID))||((data.data[i].senderID == chatID)&&(data.data[i].receiverID == userID))){
               messageList.push(data.data[i])
           }
         }
+          } else {
+            messageList = data.data
+          }
+        
           //sort messages
           messageList.sort(function(a: { timestamp: number }, b: { timestamp: number }){
             return a.timestamp - b.timestamp;
@@ -77,9 +86,19 @@ export default function Home() {
    setUserID(myID as string)
    
    const params = new URLSearchParams(window.location.search);
-   const receiverID = String(params.get("chatID"));
+   let receiverID;
+   let isGroup;
+   //checking for groupchat
+    if (params.has("chatID")){
+      receiverID = String(params.get("chatID"));
+      isGroup = false
+   } else {
+    receiverID = String(params.get("groupID"));
+    isGroup = true
+   }
+
    setChatID(receiverID as string)
-   getMessageData(myID,receiverID);
+   getMessageData(myID,receiverID,isGroup);
    
   }, []);
 

@@ -36,6 +36,24 @@ const messages = [
       content: "Hey Ben its Luke!",
       timestamp: 202305031256,
     },
+    {
+      senderID: "Luke",
+      receiverID: "GroupChat1",
+      content: "Group chat time!",
+      timestamp: 202305031257,
+    },
+    {
+      senderID: "Martin",
+      receiverID: "GroupChat1",
+      content: "It finaly works!",
+      timestamp: 202305031257,
+    },
+    {
+      senderID: "Ben",
+      receiverID: "GroupChat1",
+      content: "Awesome",
+      timestamp: 202305031257,
+    },
 ]
 
   
@@ -65,6 +83,27 @@ const messages = [
               message: "message does not exist",
             });
           }
+        } else if (req.query.hasOwnProperty("groupID")) {//allowing groupchats
+          const { groupID } = req.query;
+          let messageList = []
+          for (let i = 0; i < messages.length ; i++){
+            if (messages[i].receiverID == groupID ){
+              messageList.push(messages[i])
+            }
+          }
+          if (messageList) {
+            return res.status(200).json({
+              success: true,
+              message: "ok",
+              data: messageList,
+            });
+          } else {
+            return res.status(400).json({
+              success: false,
+              message: "message does not exist",
+            });
+          }
+
         } else {
           // Else return all projects - DISABLED
           return res.status(400).json({
