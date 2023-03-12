@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 import MessengerList from '@/components/MessengerList'
 import { getCookie } from 'cookies-next'
 import { timeStamp } from 'console'
-import { messageType,userType } from '@/types/types'
+import { messageType,userType,groupType } from '@/types/types'
 import Link from 'next/link'
 
 export default function Home() {
@@ -19,6 +19,11 @@ export default function Home() {
     completed: 0,
     uncompleted:0,
     meaninglessStats: [0]
+  }]);
+
+  const [groups, setGroups] = useState<groupType[]>([{
+    groupID: "",
+    members: [],
   }]);
 
   //GET REQUEST
@@ -47,6 +52,31 @@ export default function Home() {
         }
       });
   }
+
+  async function getGroups(userID: any) {
+    const url = "/api/groupchats";
+    await fetch(url, {
+      method: "GET",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          console.log("error fetching api data");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.success) {
+          // If the API is successfull
+          let chats = []
+          for (let i = 0 ; i < data.data.length;i++){
+            if (data.data[i].members.includes(userID)){//get only chats user is in
+              chats.push(data.data[i])
+            }
+          }
+          setGroups(chats);
+        }
+      });
+  }
   
 
   useEffect(() => {
@@ -65,6 +95,7 @@ export default function Home() {
    const ID = getCookie('userID')
    setUserID(ID as string)
    getData(ID);
+   getGroups(ID);
   }, []);
 
 
@@ -82,10 +113,19 @@ export default function Home() {
         </div>
         <div className='relative mx-auto my-5 p-5 bg-white shadow-xl rounded-xl w-8/12 h-5/6 space-y-5'>
           <h1 className='text-center font-bold font-sans text-3xl'>Welcome {userID}</h1>
+          <h1 className='text-center font-bold font-sans text-xl'>Direct:</h1>
           <>
               {users.map((user)=>(
                 <div className='pt-0.5 w-1/2 mx-auto'>
-                <MessengerList key={user.userID} userID={user.userID} completed={user.completed} uncompleted={user.uncompleted} meaninglessStats={user.meaninglessStats}/>
+                <MessengerList key={user.userID} userID={user.userID} isGroup={false}/>
+                </div>
+              ))}
+          </>
+          <h1 className='text-center font-bold font-sans text-xl'>Groups:</h1>
+          <>
+              {groups.map((group)=>(
+                <div className='pt-0.5 w-1/2 mx-auto'>
+                <MessengerList key={group.groupID} userID={group.groupID} isGroup={true}/>
                 </div>
               ))}
           </>

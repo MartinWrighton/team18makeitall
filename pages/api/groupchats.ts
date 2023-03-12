@@ -9,6 +9,10 @@ const groups = [
     {
         groupID: "GroupChat1",
         members: ["Martin","Luke","Ben"]
+    },
+    {
+        groupID: "Unused Chat",
+        members: []
     }
 
 ]
