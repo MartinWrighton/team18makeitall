@@ -24,7 +24,7 @@ export default function Home() {
         return res.json();
       })
       .then((data) => {
-        if (!(data.data.length == 0)) {
+        if ((data.data)) {
           // If the API is successfull
           setCookie('userID', userID);
           Router.push("./menu")

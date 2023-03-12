@@ -15,6 +15,7 @@ import Link from 'next/link'
 export default function Home() {
   const [userID,setUserID] = useState("")
   const [chatID,setChatID] = useState("")
+  const [textbox,setTextbox] = useState("")
   const [messages, setMessages] = useState<messageType[]>([{
     senderID : "",
     receiverID: "",
@@ -23,8 +24,11 @@ export default function Home() {
   }]);
 
 
+  function sendMessage(textbox : string){
+    console.log(textbox)
+  }
+
   //GET REQUEST
-  
   async function getMessageData(userID: any,chatID: string) {
     const url = "/api/messages?userID=" + userID;
     await fetch(url, {
@@ -100,6 +104,20 @@ export default function Home() {
                 <Message key={message.timestamp+message.senderID} senderID={message.senderID} receiverID={message.receiverID} timestamp={message.timestamp} content={message.content}/>
               ))}
           </>
+          <div className='w-full mx-auto flex absolute bottom-20'>
+            <div className='mx-auto w-[80%] flex'>
+              <input id="name"  placeholder='Message' className='justify-center border-2 w-full border-blue-300 rounded-md bg-gray-100' onInput={(e:any)=>{
+                setTextbox(e.target.value!)
+              }
+              }></input>
+              <br/>
+              <div className='w-fit mx-auto '>
+              <button className='bg-blue-500 px-2 rounded-lg  w-fit mx-auto font-bold font-sans text-xl' onClick={(e)=>{
+                sendMessage(textbox)
+              }}>Send</button>
+              </div>
+            </div>
+          </div>
           <Link className='absolute bottom-0 right-0' href="/messengerList">
                 <button className='bg-blue-500 px-2 rounded-lg h-fit  w-fit mx-auto font-bold font-sans text-xl'>Back</button>
           </Link>
