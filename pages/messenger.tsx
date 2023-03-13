@@ -28,14 +28,19 @@ export default function Home() {
   async function sendMessage(userID:string,chatID:string,textbox : string,isGroup:boolean){
     const url = "/api/messages"
     //date-time formatting
-    const date = new Date();
-    const month = date.getMonth()+1
-    let longMonth
-    if (month < 10){
-      longMonth = "0"+String(month)
-    }
-    const datetime = parseInt(String(date.getFullYear())+longMonth+String(date.getDate())+String(date.getHours())+String(date.getMinutes())+String(date.getSeconds()))
-    console.log(datetime)
+    let date = new Date();
+    let month = date.getMonth()+1
+    let day = date.getDate()
+    let hour = date.getHours()
+    let minute = date.getMinutes()
+    let second = date.getSeconds()
+    
+    const longMonth = ("0"+String(month)).slice(-2)
+    const longDay = ("0"+String(day)).slice(-2)
+    const longHour = ("0"+String(hour)).slice(-2)
+    const longMinute = ("0"+String(minute)).slice(-2)
+    const longSecond = ("0"+String(second)).slice(-2)
+    const datetime = parseInt(String(date.getFullYear())+longMonth+longDay+longHour+longMinute+longSecond)
     await fetch(url, {
       method: "POST",
       headers: {
@@ -193,13 +198,17 @@ export default function Home() {
                   // Cancel the default action, if needed
                   event.preventDefault();
                   // Trigger the button element with a click
+                  if (textbox){
                   sendMessage(userID,chatID,textbox,isGroupchat)
+                  }
                 }}
               }></input>
               <br/>
               <div className='w-fit mx-auto '>
               <button id="send" className='bg-gradient-to-b from-indigo-400 to-indigo-400 via-indigo-500 hover:from-indigo-300 hover:to-indigo-300 hover:via-indigo-400 hover:translate-y-1 px-2 rounded-lg  w-fit mx-auto font-bold font-sans text-xl' onClick={(e)=>{
-                sendMessage(userID,chatID,textbox,isGroupchat)
+                if (textbox){
+                  sendMessage(userID,chatID,textbox,isGroupchat)
+                }
               }}>Send</button>
               </div>
             </div>
