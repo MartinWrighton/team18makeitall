@@ -18,6 +18,7 @@ export default function Home() {
   const [textbox,setTextbox] = useState("")
   const [isGroupchat,setIsGroupchat] = useState(false)
   const [messages, setMessages] = useState<messageType[]>([{
+    messageID: 0,
     senderID : "",
     receiverID: "",
     content: "",
@@ -182,15 +183,16 @@ export default function Home() {
         </div>
         <div className='relative mx-auto my-5 p-5 bg-gradient-to-bl from-indigo-900 to-yellow-300 via-indigo-500 shadow-xl rounded-xl w-8/12 h-5/6 space-y-5'>
           <h1 className='text-center font-bold font-sans text-3xl'>Messaging {chatID}</h1>
-          <>
+          <div className='h-[75%] overflow-y-auto space-y-1'>
              {messages.map((message)=>(
-                <Message key={message.timestamp+message.senderID} senderID={message.senderID} receiverID={message.receiverID} timestamp={message.timestamp} content={message.content}/>
+                <Message key={message.messageID} messageID={message.messageID} senderID={message.senderID} receiverID={message.receiverID} timestamp={message.timestamp} content={message.content}/>
               ))}
-          </>
-          <div className='w-full mx-auto flex absolute bottom-20'>
+          </div>
+          <div className='w-full mx-auto flex absolute bottom-10'>
             <div className='mx-auto w-[80%] flex'>
-              <input id="name"  placeholder='Message' className='justify-center border-2 w-full rounded-md bg-gray-100' onInput={(e:any)=>{
+              <input id="message"  placeholder='Message' className='justify-center border-2 w-full rounded-md bg-gray-100' onInput={(e:any)=>{
                 setTextbox(e.target.value!)
+                
               }}
               onKeyDown = {(event) => {
                 // If the user presses the "Enter" key on the keyboard
@@ -200,14 +202,19 @@ export default function Home() {
                   // Trigger the button element with a click
                   if (textbox){
                   sendMessage(userID,chatID,textbox,isGroupchat)
+                  console.log(event.target.value!)//ignore the .value errors, it works...
+                  event.target.value! = ""
+            
                   }
                 }}
               }></input>
               <br/>
               <div className='w-fit mx-auto '>
-              <button id="send" className='bg-gradient-to-b from-indigo-400 to-indigo-400 via-indigo-500 hover:from-indigo-300 hover:to-indigo-300 hover:via-indigo-400 hover:translate-y-1 px-2 rounded-lg  w-fit mx-auto font-bold font-sans text-xl' onClick={(e)=>{
+              <button id="send" className='bg-gradient-to-b from-indigo-400 to-indigo-400 via-indigo-500 hover:from-indigo-300 hover:to-indigo-300 hover:via-indigo-400 hover:translate-y-1 px-2 rounded-lg  w-fit mx-auto font-bold font-sans text-xl' onClick={(event)=>{
                 if (textbox){
                   sendMessage(userID,chatID,textbox,isGroupchat)
+                  document.getElementById("message")!.value = ""
+                  
                 }
               }}>Send</button>
               </div>

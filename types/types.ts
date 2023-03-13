@@ -1,4 +1,5 @@
 type messageType = {
+    messageID: number;
     senderID: string;
     receiverID: string;
     content: string;
