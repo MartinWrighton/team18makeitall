@@ -3,6 +3,14 @@ import { stringify } from "querystring";
 
 import { messageType } from '@/types/types'
 
+
+/*USER IDS:
+ Martin: 1
+ Ben: 2
+ Luke: 3
+Timestamp is YYYYMMDD + HHMMSS i think
+
+*/
 let messages = [
   {
     messageID: 0,
@@ -11,13 +19,7 @@ let messages = [
     content: "At least 3",
     timestamp: 20230303133300,
    },
-  {
-    messageID: 7,
-      senderID: "Ben",
-      receiverID: "Martin",
-      content: "Terribly",
-      timestamp: 20230301121000,
-    },
+
   {
     messageID: 1,
       senderID: "Martin",
@@ -41,20 +43,27 @@ let messages = [
     },
     {
       messageID: 4,
+      senderID: "Ben",
+      receiverID: "Martin",
+      content: "Terribly",
+      timestamp: 20230301121000,
+      },
+    {
+      messageID: 5,
       senderID: "Luke",
       receiverID: "GroupChat1",
       content: "Group chat time!",
       timestamp: 20230303125700,
     },
     {
-      messageID: 5,
+      messageID: 6,
       senderID: "Martin",
       receiverID: "GroupChat1",
       content: "It finaly works!",
       timestamp: 20230303125700,
     },
     {
-      messageID: 6,
+      messageID: 7,
       senderID: "Ben",
       receiverID: "GroupChat1",
       content: "Awesome",
@@ -62,8 +71,7 @@ let messages = [
     },
 ]
 
-
-
+console.log("<?php echo 'hello' ?>");
   
 
     export default function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -94,6 +102,8 @@ let messages = [
               message: "message does not exist",
             });
           }
+
+          //EDIT THIS TO SEPARATE PRIVATE MESSAGE FROM GROUP MESSAGE
         } else if (req.query.hasOwnProperty("groupID")) {//allowing groupchats
           const { groupID } = req.query;
           let messageList = []
@@ -123,7 +133,7 @@ let messages = [
             data: messages,
           });
         }
-     
+      
       } else if (req.method == "POST"){
         const body = req.body
         messages.push({
