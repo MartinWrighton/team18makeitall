@@ -5,6 +5,7 @@ $userName = "Team18";
 $password = "Team18";
 $dbName = "Team18";
 $dbPort = "3306";
+$ID = $_POST['id'];
 $conn = mysqli_connect($serverName,$userName,$password,$dbName,$dbPort);
 
 if (!$conn){
@@ -12,7 +13,7 @@ if (!$conn){
 }
 else
 {
-    $query = "SELECT * FROM (`PrivateChats` Join PrivateMessage on PrivateMessage.messageID = PrivateChats.messageID) join Users on PrivateMessage.senderID = Users.userID";
+    $query = "SELECT 'forename' FROM `Users` where UserID = $ID";
     $queryResult = mysqli_query($conn,$query);
 
     $taskArray = array();
