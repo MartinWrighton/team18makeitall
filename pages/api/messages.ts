@@ -79,6 +79,19 @@ fetch("http://34.89.92.41/backendTest/getMessages.php")
   
 });
 */
+//change ip here to current external ip
+var ip = "34.142.99.128";
+
+function timeStampToDate(timestamp: String)
+{
+  let date = timestamp.substring(0,4) + "-" + timestamp.substring(4,6) +"-" + timestamp.substring(6,8);
+  return date;
+}
+function timeStampToTime(timestamp:String)
+{
+  let time = timestamp.substring(8,10) + ":" +timestamp.substring(10,12) + ":" +timestamp.substring(12,14);
+  return time;
+}
 
 function dateTimeToTimeStamp(rawtime: String, rawdate: String)
 {
@@ -90,7 +103,7 @@ let messages: any[] = []
 async function getMessages()
 {
   messages = [];
-  const response = await fetch("http://34.89.92.41/backendTest/getMessages.php");
+  const response = await fetch("http://"+ip+"/backendTest/getMessages.php");
   const data = await response.text();
   
   let JSONData =  JSON.parse(data);
@@ -175,7 +188,34 @@ async function getMessages()
         }
       
       } else if (req.method == "POST"){
+        //Called when sending messages
         const body = req.body
+        let senderID;
+        const senderResponse = await fetch("http://"+ip+"/backendTest/getUser.php?name="+body.message.senderID);
+        const senderResult = await senderResponse.text();
+        
+        senderID = await JSON.parse(senderResult)[0]["UserID"];
+        let recvID;
+        const recvResponse = await fetch("http://"+ip+"/backendTest/getUser.php?name="+body.message.receiverID);
+        const recvResult = await recvResponse.text();
+        
+        recvID = await JSON.parse(recvResult)[0]["UserID"];
+        console.log("Result: ", recvID)        
+        let date = timeStampToDate(body.message.timestamp.toString());
+        let time = timeStampToTime(body.message.timestamp.toString());
+        let data = {
+          senderName: body.message.senderID,
+          receiverName: body.message.receiverID,
+          content: body.message.content,
+          date: date,
+          time: time,
+          senderID: senderID,
+          recvID: recvID
+        }
+        
+        const insertQuery = await fetch("http://"+ip+"/backendTest/saveMessage.php?sendName="+body.message.senderID+"\
+        &recvName="+body.message.receiverID+"&content="+body.message.content+"&date="+date+"&time="+time+"&sendID="+senderID+"&\
+        recvID="+recvID);
         messages.push({
           messageID: messages.length,
           senderID: body.message.senderID,

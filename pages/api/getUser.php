@@ -5,7 +5,9 @@ $userName = "Team18";
 $password = "Team18";
 $dbName = "Team18";
 $dbPort = "3306";
-$ID = $_POST['id'];
+
+$ID = $_GET['name'];
+
 $conn = mysqli_connect($serverName,$userName,$password,$dbName,$dbPort);
 
 if (!$conn){
@@ -13,7 +15,7 @@ if (!$conn){
 }
 else
 {
-    $query = "SELECT 'forename' FROM `Users` where UserID = $ID";
+    $query = "SELECT UserID FROM `Users` where Forename = \"$ID\"";
     $queryResult = mysqli_query($conn,$query);
 
     $taskArray = array();

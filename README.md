@@ -10,3 +10,5 @@ Then to run the website run: npm run dev
 It will load on http://localhost:3000
 
 Current log ins are either Martin or Ben to see their charts
+
+Make sure IP variable in messages.ts is accurate to GCP current external IP
