@@ -131,7 +131,6 @@ async function getMessages()
   
   for(let i = 0; i < groupJSONData.length; i++)
   {
-    console.log(groupJSONData[i].messageID);
     let inputData = {userID: groupJSONData[i].receiverID}
     let timestamp = dateTimeToTimeStamp(groupJSONData[i].time, groupJSONData[i].date);
     let JSONString = '{"messageID": '+(String(Number(groupJSONData[i].groupMessageID) + largestID))+',\
@@ -140,11 +139,9 @@ async function getMessages()
     "content": "'+groupJSONData[i].content+'",\
     "timestamp": '+timestamp+'\
   }';
-  console.log(JSONString);
     JSONString = await JSON.parse(JSONString);
     messages.push(JSONString)
   }
-  console.log(messages);
   return messages;
 }
 
@@ -211,32 +208,60 @@ async function getMessages()
       } else if (req.method == "POST"){
         //Called when sending messages
         const body = req.body;
+        console.log(body.group);
         let senderID;
         const senderResponse = await fetch("http://"+ip+"/backendTest/getUser.php?name="+body.message.senderID);
         const senderResult = await senderResponse.text();
         
         senderID = await JSON.parse(senderResult)[0]["UserID"];
-        let recvID;
-        const recvResponse = await fetch("http://"+ip+"/backendTest/getUser.php?name="+body.message.receiverID);
-        const recvResult = await recvResponse.text();
-        
-        recvID = await JSON.parse(recvResult)[0]["UserID"];
-        console.log("Result: ", recvID)        
-        let date = timeStampToDate(body.message.timestamp.toString());
-        let time = timeStampToTime(body.message.timestamp.toString());
-        let data = {
-          senderName: body.message.senderID,
-          receiverName: body.message.receiverID,
-          content: body.message.content,
-          date: date,
-          time: time,
-          senderID: senderID,
-          recvID: recvID
+        //Separate here for saving group messages
+        if(!body.group)
+        {
+          let recvID;
+          const recvResponse = await fetch("http://"+ip+"/backendTest/getUser.php?name="+body.message.receiverID);
+          const recvResult = await recvResponse.text();
+          
+          recvID = await JSON.parse(recvResult)[0]["UserID"];
+          console.log("Result: ", recvID)        
+          let date = timeStampToDate(body.message.timestamp.toString());
+          let time = timeStampToTime(body.message.timestamp.toString());
+          let data = {
+            senderName: body.message.senderID,
+            receiverName: body.message.receiverID,
+            content: body.message.content,
+            date: date,
+            time: time,
+            senderID: senderID,
+            recvID: recvID
+          }
+          
+          const insertQuery = await fetch("http://"+ip+"/backendTest/saveMessage.php?mode=private&sendName="+body.message.senderID+"\
+          &recvName="+body.message.receiverID+"&content="+body.message.content+"&date="+date+"&time="+time+"&sendID="+senderID+"&\
+          recvID="+recvID);
         }
-        
-        const insertQuery = await fetch("http://"+ip+"/backendTest/saveMessage.php?sendName="+body.message.senderID+"\
-        &recvName="+body.message.receiverID+"&content="+body.message.content+"&date="+date+"&time="+time+"&sendID="+senderID+"&\
-        recvID="+recvID);
+        else
+        {
+          let recvID;
+          console.log(body.message.receiverID);
+          const recvResponse = await fetch("http://"+ip+"/backendTest/getGroup.php?name="+body.message.receiverID);
+          const recvResult = await recvResponse.text();
+          
+          recvID = await JSON.parse(recvResult)[0]["GroupID"];
+          console.log("Result: ", recvID)        
+          let date = timeStampToDate(body.message.timestamp.toString());
+          let time = timeStampToTime(body.message.timestamp.toString());
+          let data = {
+            recvID: recvID,
+            senderID: senderID,
+            content: body.message.content,
+            date: date,
+            time: time
+          }
+          console.log(data);
+          const insertQuery = await fetch("http://"+ip+"/backendTest/saveMessage.php?mode=group&\
+          &content="+body.message.content+"&date="+date+"&time="+time+"&sendID="+senderID+"&\
+          recvID="+recvID);
+        }
         messages.push({
           messageID: messages.length,
           senderID: body.message.senderID,
