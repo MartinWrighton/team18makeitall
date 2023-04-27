@@ -80,7 +80,7 @@ fetch("http://34.89.92.41/backendTest/getMessages.php")
 });
 */
 //change ip here to current external ip
-var ip = "34.142.99.128";
+var ip = "34.105.146.196";
 
 function timeStampToDate(timestamp: String)
 {
@@ -103,7 +103,7 @@ let messages: any[] = []
 async function getMessages()
 {
   messages = [];
-  const response = await fetch("http://"+ip+"/backendTest/getMessages.php");
+  const response = await fetch("http://"+ip+"/backendTest/getMessages.php?mode=private");
   const data = await response.text();
   
   let JSONData =  JSON.parse(data);
@@ -111,8 +111,7 @@ async function getMessages()
   for(let i = 0; i < JSONData.length; i++)
   {
     let inputData = {userID: JSONData[i].receiverID}
-    /*const userResponse = await fetch("http://34.89.92.41/backendTest/getUser.php",{method: 'POST', body: JSON.stringify(inputData)});
-    const receiverName = await userResponse.text();*/
+
 
     let timestamp = dateTimeToTimeStamp(JSONData[i].time, JSONData[i].date);
     let JSONString = '{"messageID": '+JSONData[i].messageID+',\
@@ -124,6 +123,28 @@ async function getMessages()
   JSONString = await JSON.parse(JSONString);
     messages.push(JSONString)
   }
+  let largestID = JSONData.length;
+  const groupResponse = await fetch("http://"+ip+"/backendTest/getMessages.php?mode=group");
+  const groupData = await groupResponse.text();
+  
+  let groupJSONData =  JSON.parse(groupData);
+  
+  for(let i = 0; i < groupJSONData.length; i++)
+  {
+    console.log(groupJSONData[i].messageID);
+    let inputData = {userID: groupJSONData[i].receiverID}
+    let timestamp = dateTimeToTimeStamp(groupJSONData[i].time, groupJSONData[i].date);
+    let JSONString = '{"messageID": '+(String(Number(groupJSONData[i].groupMessageID) + largestID))+',\
+    "senderID": "'+groupJSONData[i].forename+'",\
+    "receiverID": "'+groupJSONData[i].Name+'",\
+    "content": "'+groupJSONData[i].content+'",\
+    "timestamp": '+timestamp+'\
+  }';
+  console.log(JSONString);
+    JSONString = await JSON.parse(JSONString);
+    messages.push(JSONString)
+  }
+  console.log(messages);
   return messages;
 }
 
@@ -189,7 +210,7 @@ async function getMessages()
       
       } else if (req.method == "POST"){
         //Called when sending messages
-        const body = req.body
+        const body = req.body;
         let senderID;
         const senderResponse = await fetch("http://"+ip+"/backendTest/getUser.php?name="+body.message.senderID);
         const senderResult = await senderResponse.text();
