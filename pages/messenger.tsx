@@ -194,7 +194,7 @@ export default function Home() {
                 setTextbox(e.target.value!)
                 
               }}
-              onKeyDown = {(event) => {
+              onKeyDown = {(event:any) => {
                 // If the user presses the "Enter" key on the keyboard
                 if (event.key === "Enter") {
                   // Cancel the default action, if needed
@@ -202,7 +202,7 @@ export default function Home() {
                   // Trigger the button element with a click
                   if (textbox){
                   sendMessage(userID,chatID,textbox,isGroupchat)
-                  console.log(event.target.value!)//ignore the .value errors, it works...
+                  console.log(event.target.value!)
                   event.target.value! = ""
             
                   }
@@ -213,8 +213,8 @@ export default function Home() {
               <button id="send" className='bg-gradient-to-b from-indigo-400 to-indigo-400 via-indigo-500 hover:from-indigo-300 hover:to-indigo-300 hover:via-indigo-400 hover:translate-y-1 px-2 rounded-lg  w-fit mx-auto font-bold font-sans text-xl' onClick={(event)=>{
                 if (textbox){
                   sendMessage(userID,chatID,textbox,isGroupchat)
-                  document.getElementById("message")!.value = ""
-                  
+                  let element = (document.getElementById("message")! as HTMLTextAreaElement)
+                  element.value = ""
                 }
               }}>Send</button>
               </div>

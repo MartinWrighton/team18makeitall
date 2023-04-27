@@ -116,7 +116,7 @@ export default function Home() {
           <h1 className='text-center font-bold font-sans text-xl'>Direct:</h1>
           <>
               {users.map((user)=>(
-                <div className='pt-0.5 w-1/2 mx-auto'>
+                <div key={user.userID} className='pt-0.5 w-1/2 mx-auto'>
                 <MessengerList key={user.userID} userID={user.userID} isGroup={false}/>
                 </div>
               ))}
@@ -124,7 +124,7 @@ export default function Home() {
           <h1 className='text-center font-bold font-sans text-xl'>Groups:</h1>
           <>
               {groups.map((group)=>(
-                <div className='pt-0.5 w-1/2 mx-auto'>
+                <div key={group.groupID} className='pt-0.5 w-1/2 mx-auto'>
                 <MessengerList key={group.groupID} userID={group.groupID} isGroup={true}/>
                 </div>
               ))}

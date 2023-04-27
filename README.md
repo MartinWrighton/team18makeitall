@@ -10,3 +10,7 @@ Then to run the website run: npm run dev
 It will load on http://localhost:3000
 
 Current log ins are either Martin or Ben to see their charts
+
+## Deploy to Google Cloud Run
+
+[![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run)
