@@ -107,13 +107,13 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.jpg" />
       </Head>
-      <div className='w-screen h-screen pt-5 bg-gradient-to-bl from-blue-300 to-white via-cyan-300'>
-        <div className='mx-auto p-5 bg-gradient-to-bl from-blue-600 to-cyan-500 via-cyan-600 shadow-xl rounded-xl w-1/3 h-fit'>
-          <h1 className='text-center font-bold font-sans text-5xl'>Messenger</h1>
-        </div>
-        <div className='relative mx-auto my-5 p-5 bg-gradient-to-bl from-blue-600 to-white via-cyan-600 shadow-xl rounded-xl w-8/12 h-5/6 space-y-5'>
-          <h1 className='text-center font-bold font-sans text-3xl'>Welcome {userID}</h1>
-          <h1 className='text-center font-bold font-sans text-xl'>Direct:</h1>
+      <div className='w-screen h-screen pt-5 bg-gradient-to-b from-slate-100 to-slate-600 via-slate-400'>
+        <Link className='absolute top-0 left-0' href="/menu">
+                <button className='px-2 hover:bg-slate-500 text-white bg-black h-fit  w-fit mx-auto font-bold font-sans' style={{fontSize: '30px'}}> ← </button>
+          </Link>
+        <div className='relative mx-auto my-5 p-5  shadow-xl rounded-xl w-8/12  space-y-5 border-2 border-white' style={{backgroundColor: 'rgb(140 150 160)'}}>
+          <h1 className='text-center font-bold font-sans text-3xl border-b-2 border-black border-double'>Welcome {userID}</h1>
+          <h1 className='text-center font-bold font-sans text-xl'><u>Direct</u></h1>
           <>
               {users.map((user)=>(
                 <div className='pt-0.5 w-1/2 mx-auto'>
@@ -121,7 +121,7 @@ export default function Home() {
                 </div>
               ))}
           </>
-          <h1 className='text-center font-bold font-sans text-xl'>Groups:</h1>
+          <h1 className='text-center font-bold font-sans text-xl'><u>Groups</u></h1>
           <>
               {groups.map((group)=>(
                 <div className='pt-0.5 w-1/2 mx-auto'>
@@ -129,9 +129,7 @@ export default function Home() {
                 </div>
               ))}
           </>
-          <Link className='absolute bottom-0 right-0' href="/menu">
-                <button className='bg-gradient-to-b from-cyan-500 to-cyan-500 via-cyan-600 hover:from-cyan-400 hover:to-cyan-400 hover:via-cyan-500 hover:translate-y-1 px-2 rounded-lg h-fit  w-fit mx-auto font-bold font-sans text-xl'>Back</button>
-          </Link>
+          
         </div>
       </div>
     </>

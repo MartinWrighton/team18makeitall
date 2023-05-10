@@ -112,20 +112,20 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.jpg" />
       </Head>
-      <div className='w-screen h-screen pt-5 bg-gradient-to-bl from-zinc-600 to-indigo-500 via-orange-300'>
-        <div className='mx-auto p-5 bg-gradient-to-bl from-black to-orange-500 via-orange-600 shadow-xl rounded-xl w-1/3 h-fit'>
-          <h1 className='text-center font-bold font-sans text-5xl'>Data Analytics</h1>
-        </div>
-        <div className='relative mx-auto my-5 p-5 bg-gradient-to-bl from-black to-indigo-900 via-orange-500 shadow-xl rounded-xl w-8/12 h-5/6 space-y-5 '>
+      <div className='w-screen  pt-5 bg-gradient-to-b from-slate-100 to-slate-600 via-slate-400' style={{height: '100vh'}}>
+      <Link className='absolute top-0 left-0' href="/menu">
+        <button className='px-2 hover:bg-slate-500 text-white bg-black h-fit  w-fit mx-auto font-bold font-sans' style={{fontSize: '30px'}}> ← </button>
+      </Link>
+        <div className='relative mx-auto my-5 p-5 border-white border-2 shadow-xl rounded-3xl  w-8/12 space-y-5 ' style={{backgroundColor: 'rgb(170 190 215)'}}>
           <h1 className='text-center font-bold font-sans text-3xl'>Welcome {userID}</h1>
           <div className='flex'>
             <div className='w-1/2'>
-              <Pie
+              <Pie style={{width:'50%', height:'50%'}}
                         data={dataPie}
-                        width={400}
-                        height={400}
+                        width={300}
+                        height={300}
                         options={{
-                            responsive: true,
+                            
 
                             plugins: {
                               legend: {
@@ -133,22 +133,21 @@ export default function Home() {
                                 position: 'left'
                               }
                               
-                            }
+                            },
+                            
 
                         }}
               />
             </div>
             <div className='w-1/2'>
-              <Line
+              <Line style={{width:'300px', height:'300px'}}
                   data={dataLine}
-                  width={400}
-                  height={400}
+                  width={300}
+                  height={300}
               />
             </div>
           </div>
-          <Link className='absolute bottom-0 right-0' href="/menu">
-                <button className='bg-gradient-to-b from-orange-500 to-orange-500 via-orange-600 hover:from-orange-400 hover:to-orange-400 hover:via-orange-500 hover:translate-y-1 px-2 rounded-lg h-fit  w-fit mx-auto font-bold font-sans text-xl'>Back</button>
-          </Link>
+          
         </div>
         
       </div>
