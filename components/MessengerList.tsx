@@ -1,12 +1,25 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import Head from 'next/head'
+import Image from 'next/image'
+import { Inter } from 'next/font/google'
+import styles from '@/styles/Home.module.css'
+import Router from 'next/router'
+import { useState } from 'react'
+import { useEffect } from 'react'
+import MessengerList from '@/components/MessengerList'
 import { getCookie } from 'cookies-next'
-import { userType } from '@/types/types'
-import Link from "next/link";
+import { timeStamp } from 'console'
+import { messageType,userType,groupType } from '@/types/types'
+import Link from 'next/link'
 
+export default function Home() {
+  const [userID,setUserID] = useState("")
 
-export default function MessengerList(props:any ){
-    const [user,setUser] = useState(props.userID);
+  const [users, setUsers] = useState<userType[]>([{
+    userID: "",
+    completed: 0,
+    uncompleted:0,
+    meaninglessStats: [0]
+  }]);
 
    
 
@@ -26,9 +39,11 @@ export default function MessengerList(props:any ){
                   <img src={profileImg} style={{width: '30px', height: '30px'}} alt="" />
                   <h1 className="mx-auto font-bold text-center text-xl" >{user}</h1>
                 </div>
-      
-            </div>
-          </Link>
-        </>
-    )
+              ))}
+          </>
+          
+        </div>
+      </div>
+    </>
+  )
 }
