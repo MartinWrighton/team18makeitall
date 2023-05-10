@@ -10,6 +10,8 @@ import { getCookie } from 'cookies-next'
 import { timeStamp } from 'console'
 import { messageType} from '@/types/types'
 import Link from 'next/link'
+import ReactDOM from 'react-dom'
+
 
 
 export default function Home() {
@@ -195,7 +197,7 @@ export default function Home() {
                 setTextbox(e.target.value!)
                 
               }}
-              onKeyDown = {(event:any) => {
+              onKeyDown = {(event) => {
                 // If the user presses the "Enter" key on the keyboard
                 if (event.key === "Enter") {
                   // Cancel the default action, if needed
@@ -203,7 +205,7 @@ export default function Home() {
                   // Trigger the button element with a click
                   if (textbox){
                   sendMessage(userID,chatID,textbox,isGroupchat)
-                  console.log(event.target.value!)
+                  console.log(event.target.value!)//ignore the .value errors, it works...
                   event.target.value! = ""
             
                   }
@@ -214,8 +216,8 @@ export default function Home() {
               <button id="send" className='bg-black text-white hover:bg-slate-700  px-2 rounded-r-lg  w-fit mx-auto font-bold font-sans text-xl' onClick={(event)=>{
                 if (textbox){
                   sendMessage(userID,chatID,textbox,isGroupchat)
-                  let element = (document.getElementById("message")! as HTMLTextAreaElement)
-                  element.value = ""
+                  document.getElementById("message")!.value = ""
+                  
                 }
               }}>Send</button>
               </div>
