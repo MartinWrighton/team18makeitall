@@ -177,12 +177,13 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.jpg" />
       </Head>
-      <div className='w-screen h-screen pt-5 bg-gradient-to-bl from-indigo-300 to-amber-300 via-indigo-300'>
-        <div className='mx-auto p-5 bg-gradient-to-bl from-indigo-900 to-indigo-500 via-indigo-600 shadow-xl rounded-xl w-1/3 h-fit'>
-          <h1 className='text-center font-bold font-sans text-5xl'>Messenger</h1>
-        </div>
-        <div className='relative mx-auto my-5 p-5 bg-gradient-to-bl from-indigo-900 to-yellow-300 via-indigo-500 shadow-xl rounded-xl w-8/12 h-5/6 space-y-5'>
-          <h1 className='text-center font-bold font-sans text-3xl'>Messaging {chatID}</h1>
+      <Link className='absolute top-0 left-0' href="/messengerList">
+                <button className='px-2 hover:bg-slate-500 text-white bg-black h-fit  w-fit mx-auto font-bold font-sans' style={{fontSize: '30px'}}> ← </button>
+      </Link>
+      <div className='w-screen h-screen pt-5 bg-gradient-to-b from-slate-100 to-slate-600 via-slate-400'>
+        
+        <div className='relative mx-auto my-5 p-5  shadow-xl rounded-xl w-8/12 h-5/6 space-y-5 border-2 border-white' style={{backgroundColor: 'rgb(140 150 160)'}}>
+          <h1 className='text-center border-double border-b-2 border-black font-bold font-sans text-3xl' style={{paddingBottom: '20px'}} >Messaging {chatID}</h1>
           <div className='h-[75%] overflow-y-auto space-y-1'>
              {messages.map((message)=>(
                 <Message key={message.messageID} messageID={message.messageID} senderID={message.senderID} receiverID={message.receiverID} timestamp={message.timestamp} content={message.content}/>
@@ -190,11 +191,11 @@ export default function Home() {
           </div>
           <div className='w-full mx-auto flex absolute bottom-10'>
             <div className='mx-auto w-[80%] flex'>
-              <input id="message"  placeholder='Message' className='justify-center border-2 w-full rounded-md bg-gray-100' onInput={(e:any)=>{
+              <input id="message"  placeholder='Message' className='justify-center border-2 w-full rounded-l-md bg-gray-100' onInput={(e:any)=>{
                 setTextbox(e.target.value!)
                 
               }}
-              onKeyDown = {(event) => {
+              onKeyDown = {(event:any) => {
                 // If the user presses the "Enter" key on the keyboard
                 if (event.key === "Enter") {
                   // Cancel the default action, if needed
@@ -202,7 +203,7 @@ export default function Home() {
                   // Trigger the button element with a click
                   if (textbox){
                   sendMessage(userID,chatID,textbox,isGroupchat)
-                  console.log(event.target.value!)//ignore the .value errors, it works...
+                  console.log(event.target.value!)
                   event.target.value! = ""
             
                   }
@@ -210,7 +211,7 @@ export default function Home() {
               }></input>
               <br/>
               <div className='w-fit mx-auto '>
-              <button id="send" className='bg-gradient-to-b from-indigo-400 to-indigo-400 via-indigo-500 hover:from-indigo-300 hover:to-indigo-300 hover:via-indigo-400 hover:translate-y-1 px-2 rounded-lg  w-fit mx-auto font-bold font-sans text-xl' onClick={(event)=>{
+              <button id="send" className='bg-black text-white hover:bg-slate-700  px-2 rounded-r-lg  w-fit mx-auto font-bold font-sans text-xl' onClick={(event)=>{
                 if (textbox){
                   sendMessage(userID,chatID,textbox,isGroupchat)
                   document.getElementById("message")!.value = ""
@@ -220,9 +221,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <Link className='absolute bottom-0 right-0' href="/messengerList">
-                <button className='bg-gradient-to-b from-indigo-400 to-indigo-400 via-indigo-500 hover:from-indigo-300 hover:to-indigo-300 hover:via-indigo-400 hover:translate-y-1 px-2 rounded-lg h-fit  w-fit mx-auto font-bold font-sans text-xl'>Back</button>
-          </Link>
+          
         </div>
       </div>
     </>
