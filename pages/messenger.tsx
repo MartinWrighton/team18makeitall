@@ -203,7 +203,6 @@ export default function Home() {
                   // Trigger the button element with a click
                   if (textbox){
                   sendMessage(userID,chatID,textbox,isGroupchat)
-                  console.log(event.target.value!)
                   event.target.value! = ""
             
                   }
@@ -214,7 +213,8 @@ export default function Home() {
               <button id="send" className='bg-black text-white hover:bg-slate-700  px-2 rounded-r-lg  w-fit mx-auto font-bold font-sans text-xl' onClick={(event)=>{
                 if (textbox){
                   sendMessage(userID,chatID,textbox,isGroupchat)
-                  document.getElementById("message")!.value = ""
+                  let element = (document.getElementById("message") as HTMLTextAreaElement)
+                  element.value = ""
                   
                 }
               }}>Send</button>
