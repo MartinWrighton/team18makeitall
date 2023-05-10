@@ -9,10 +9,10 @@ export default function Message(props : messageType){
 
     const userID = getCookie('userID')
 
-      let style = "w-1/2 h-fit bg-gradient-to-l from-blue-500 to-blue-300 via-blue-400 rounded-xl p-2 shadow-lg"
+      let style = "w-1/2 h-fit bg-slate-900 text-white rounded-r-xl rounded-b-xl p-2 shadow-lg"
 
       if (userID==message.senderID){
-        style = "w-1/2 h-fit bg-gradient-to-r from-green-500 to-green-300 via-green-400 rounded-xl p-2 ml-[50%] shadow-lg"
+        style = "w-1/2 h-fit bg-white rounded-t-xl rounded-l-xl p-2 ml-[50%] shadow-lg"
     }
 
     return(
